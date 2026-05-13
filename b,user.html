@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biabu Floral Art</title>
+<meta name="theme-color" content="#8B0000">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@300;400;600&display=swap');
+
+:root{--gold:#D4AF37;--maroon:#8B0000;--dark:#2C1810;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Montserrat',sans-serif;background:#FAF8F6;color:#333;}
+
+.hero{
+  background:linear-gradient(rgba(44,24,16,0.8),rgba(139,0,0,0.9)),
+             url('https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=1920') center/cover;
+  color:#fff;text-align:center;padding:80px 20px;
+}
+.hero img{width:140px;height:140px;border-radius:50%;border:4px solid var(--gold);margin-bottom:20px;object-fit:cover;}
+.hero h1{font-family:'Playfair Display',serif;font-size:3rem;color:var(--gold);}
+.hero p{font-size:1.2rem;margin:15px 0 30px;max-width:700px;margin-left:auto;margin-right:auto;}
+.btn{background:linear-gradient(135deg,var(--gold),#B8860B);color:var(--dark);padding:15px 40px;
+     border-radius:50px;text-decoration:none;font-weight:700;display:inline-block;transition:0.3s;border:none;cursor:pointer;}
+.btn:hover{transform:translateY(-3px);box-shadow:0 8px 25px rgba(212,175,55,0.4);}
+
+.gallery{padding:60px 20px;max-width:1400px;margin:0 auto;}
+.gallery h2{text-align:center;font-family:'Playfair Display',serif;font-size:2.8rem;color:var(--maroon);margin-bottom:40px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:30px;}
+.card{background:#fff;border-radius:15px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,0.12);transition:0.3s;}
+.card:hover{transform:translateY(-10px);}
+.card img{width:100%;height:320px;object-fit:cover;}
+.card-info{padding:20px;text-align:center;}
+.card-info h3{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--maroon);}
+.card-info p{color:#666;margin:10px 0;font-size:0.95rem;}
+.price{font-size:1.4rem;font-weight:700;color:var(--gold);margin-bottom:15px;}
+.btn-small{padding:10px 25px;font-size:0.95rem;}
+
+.contact{background:var(--maroon);color:#fff;text-align:center;padding:60px 20px;position:relative;overflow:hidden;}
+.contact::before,.contact::after{
+  content:'🌸';
+  position:absolute;
+  font-size:4rem;
+  opacity:0.15;
+}
+.contact::before{top:20px;left:30px;}
+.contact::after{bottom:20px;right:30px;content:'🌺';}
+.contact h2{font-family:'Playfair Display',serif;font-size:2.5rem;color:var(--gold);position:relative;z-index:2;}
+.location{font-size:1.1rem;margin:15px 0 30px;opacity:0.9;position:relative;z-index:2;}
+
+.phone-display{
+  font-size:2.2rem;
+  font-weight:700;
+  color:var(--gold);
+  margin:25px 0;
+  letter-spacing:2px;
+  position:relative;
+  z-index:2;
+  display:inline-block;
+  padding:0 20px;
+}
+.phone-display::before,.phone-display::after{
+  content:'🌼';
+  font-size:1.8rem;
+  margin:0 15px;
+  vertical-align:middle;
+}
+
+.contact-links{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin:30px 0;position:relative;z-index:2;}
+.contact-link{
+  font-size:1.2rem;
+  color:#fff;
+  text-decoration:none;
+  border:2px solid var(--gold);
+  padding:12px 30px;
+  border-radius:50px;
+  display:inline-block;
+  transition:0.3s;
+  background:rgba(0,0,0,0.2);
+}
+.contact-link:hover{background:var(--gold);color:var(--dark);}
+footer{text-align:center;padding:20px;background:var(--dark);color:#fff;font-size:0.9rem;}
+.empty{text-align:center;padding:60px;color:#999;font-size:1.2rem;}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <img id="logo" src="https://via.placeholder.com/140" alt="Logo">
+  <h1 id="bizName">Biabu Floral Art</h1>
+  <p>Mtaalamu wa michoro ya piko/mehndi kwa harusi, sherehe na matukio maalum.</p>
+  <a href="#gallery" class="btn">Ona Michoro</a>
+</section>
+
+<section class="gallery" id="gallery">
+  <h2>Michoro Yetu ya Piko</h2>
+  <div class="grid" id="galleryGrid"></div>
+  <div class="empty" id="emptyMsg" style="display:none;">Bado hakuna picha. Admin anaweza kuongeza sasa.</div>
+</section>
+
+<section class="contact" id="contact">
+  <h2>Karibu Kuchora Piko Yako</h2>
+  <p>Tuwasiliane sasa hivi kupanga ratiba</p>
+  <div class="location" id="locationDisplay">Morogoro. Kwa sasa</div>
+
+  <div class="phone-display" id="phoneDisplay" style="display:none;"></div>
+
+  <div class="contact-links" id="contactLinks"></div>
+
+  <p style="margin-top:25px;font-size:0.95rem;position:relative;z-index:2;">Tunafika nyumbani kwako kwa agizo</p>
+</section>
+
+<footer>© 2026 Biabu Floral Art | Mtaalamu wa Piko & Mehndi Art</footer>
+
+<script>
+let data = JSON.parse(localStorage.getItem('biabuData')) || {
+  logo:'',
+  name:'Biabu Floral Art',
+  phone:'',
+  whatsappLink:'',
+  location:'Morogoro. Kwa sasa',
+  items:[]
+};
+
+document.getElementById('logo').src = data.logo || 'https://via.placeholder.com/140';
+document.getElementById('bizName').innerText = data.name;
+document.getElementById('locationDisplay').innerText = data.location;
+
+if(data.phone){
+  document.getElementById('phoneDisplay').style.display = 'block';
+  document.getElementById('phoneDisplay').innerText = data.phone;
+}
+
+const contactDiv = document.getElementById('contactLinks');
+if(data.phone){
+  const telLink = `tel:${data.phone}`;
+  contactDiv.innerHTML += `<a href="${telLink}" class="contact-link">📞 Piga Simu</a>`;
+}
+if(data.whatsappLink){
+  contactDiv.innerHTML += `<a href="${data.whatsappLink}" class="contact-link" target="_blank">💬 WhatsApp</a>`;
+}
+
+const grid = document.getElementById('galleryGrid');
+const emptyMsg = document.getElementById('emptyMsg');
+
+if(data.items.length === 0){
+  emptyMsg.style.display = 'block';
+} else {
+  data.items.forEach(item=>{
+    const waLink = data.whatsappLink || '#';
+    grid.innerHTML += `
+      <div class="card">
+        <img src="${item.img}" alt="${item.title}">
+        <div class="card-info">
+          <h3>${item.title}</h3>
+          <p>${item.desc}</p>
+          <div class="price">Tsh ${item.price}</div>
+          <a href="${waLink}" class="btn btn-small" target="_blank">
+             Agiza Hii
+          </a>
+        </div>
+      </div>
+    `;
+  });
+}
+
+// Register Service Worker kwa PWA
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('./sw.js');
+}
+</script>
+</body>
+</html>
