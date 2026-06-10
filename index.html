@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="sw">
 <head>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7905752130054357"
      crossorigin="anonymous"></script>
 <meta charset="UTF-8">
@@ -118,61 +119,62 @@ footer{text-align:center;padding:20px;background:var(--dark);color:#fff;font-siz
 <footer>© 2026 Biabu Floral Art | Mtaalamu wa Piko & Mehndi Art created by spein. </footer>
 
 <script>
-let data = JSON.parse(localStorage.getItem('biabuData')) || {
-  logo:'',
-  name:'Biabu Floral Art',
-  phone:'',
-  whatsappLink:'',
-  location:'Morogoro. Kwa sasa',
-  items:[]
-};
+  const SUPABASE_URL = "https://ukqlsvxbzvmussocjlrs.supabase.co";
+const SUPABASE_KEY = "sb_publishable_F8msxF9m1AzxS_S-2hNQJA_kUN_oXWz";
 
-document.getElementById('logo').src = data.logo || 'https://via.placeholder.com/140';
-document.getElementById('bizName').innerText = data.name;
-document.getElementById('locationDisplay').innerText = data.location;
+const supabase = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+async function loadGallery(){
 
-if(data.phone){
-  document.getElementById('phoneDisplay').style.display = 'block';
-  document.getElementById('phoneDisplay').innerText = data.phone;
-}
+  const { data, error } = await supabase
+    .from('gallery')
+    .select('*')
+    .order('id', { ascending:false });
 
-const contactDiv = document.getElementById('contactLinks');
-if(data.phone){
-  const telLink = `tel:${data.phone}`;
-  contactDiv.innerHTML += `<a href="${telLink}" class="contact-link">📞 Piga Simu</a>`;
-}
-if(data.whatsappLink){
-  contactDiv.innerHTML += `<a href="${data.whatsappLink}" class="contact-link" target="_blank">💬 WhatsApp</a>`;
-}
+  const grid = document.getElementById('galleryGrid');
+  const emptyMsg = document.getElementById('emptyMsg');
 
-const grid = document.getElementById('galleryGrid');
-const emptyMsg = document.getElementById('emptyMsg');
+  if(error){
+    console.log(error);
+    return;
+  }
 
-if(data.items.length === 0){
-  emptyMsg.style.display = 'block';
-} else {
-  data.items.forEach(item=>{
-    const waLink = data.whatsappLink || '#';
+  if(data.length === 0){
+    emptyMsg.style.display = 'block';
+    return;
+  }
+
+  grid.innerHTML = '';
+
+  data.forEach(item => {
+
     grid.innerHTML += `
       <div class="card">
-        <img src="${item.img}" alt="${item.title}">
+        <img src="${item.image_url}">
         <div class="card-info">
           <h3>${item.title}</h3>
-          <p>${item.desc}</p>
-          <div class="price">Tsh ${item.price}</div>
-          <a href="${waLink}" class="btn btn-small" target="_blank">
-             Agiza Hii
-          </a>
+          <p>${item.description}</p>
+          <div class="price">
+            Tsh ${item.price}
+          </div>
         </div>
       </div>
     `;
+
   });
+
 }
+
+loadGallery();
+
 
 // Register Service Worker kwa PWA
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('./sw.js');
 }
+
 </script>
 </body>
 </html>
